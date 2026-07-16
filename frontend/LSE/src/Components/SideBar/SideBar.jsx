@@ -30,12 +30,18 @@ function Sidebar() {
 
       sx={{
         width: 300,
+        minHeight: "calc(100vh - 80px)",
+        height: "calc(100vh - 80px)",
+        position: "sticky",
+        top: "80px",
         bgcolor: "rgba(17, 24, 39, 0.6)",
         backdropFilter: "blur(14px)",
-        border: "1px solid rgba(255, 255, 255, 0.08)",
-        borderRadius: 5,
+        borderRight: "1px solid rgba(255, 255, 255, 0.08)",
+        borderRadius: 0,
         p: 3,
         boxShadow: 2,
+        overflowY: "auto",
+        boxSizing: "border-box",
       }}
 
     >

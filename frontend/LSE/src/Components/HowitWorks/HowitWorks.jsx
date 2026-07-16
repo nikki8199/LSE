@@ -40,7 +40,6 @@ function HowItWorks() {
       }}
     >
       <Container maxWidth="lg">
-
         <Typography
           variant="h3"
           fontWeight="bold"
@@ -52,47 +51,62 @@ function HowItWorks() {
         <Typography
           align="center"
           color="text.secondary"
-          sx={{ mt: 2, mb: 8 }}
+          sx={{
+            mt: 2,
+            mb: 8,
+            maxWidth: 700,
+            mx: "auto",
+          }}
         >
           Getting started is simple. Join the community in just
           three easy steps.
         </Typography>
 
-        <Grid container spacing={4} justifyContent="center">
-
+        <Grid
+          container
+          spacing={4}
+          justifyContent="center"
+          alignItems="stretch"
+        >
           {steps.map((step, index) => (
-
             <Grid
-              item
-              xs={12}
-              md={4}
               key={index}
+              size={{ xs: 12, sm: 6, md: 4 }}
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "stretch",
+              }}
             >
-
               <Paper
                 elevation={0}
                 sx={{
+                  width: 340,
+                  minHeight: 380,
                   p: 4,
                   textAlign: "center",
                   borderRadius: 5,
                   background: "rgba(17, 24, 39, 0.6)",
                   backdropFilter: "blur(14px)",
                   border: "1px solid rgba(255, 255, 255, 0.08)",
-                  height: "100%",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "flex-start",
                   transition: ".3s",
+
                   "&:hover": {
                     transform: "translateY(-10px)",
-                    boxShadow: "0px 15px 40px rgba(99, 102, 241, 0.15)",
+                    boxShadow:
+                      "0px 15px 40px rgba(99, 102, 241, 0.15)",
                     borderColor: "rgba(99, 102, 241, 0.3)",
                   },
                 }}
               >
-
                 <Box
                   sx={{
                     width: 90,
                     height: 90,
-                    mx: "auto",
                     mb: 3,
                     borderRadius: "50%",
                     display: "flex",
@@ -114,18 +128,16 @@ function HowItWorks() {
                   {step.title}
                 </Typography>
 
-                <Typography color="text.secondary" align="center">
+                <Typography
+                  color="text.secondary"
+                  align="center"
+                >
                   {step.description}
                 </Typography>
-
               </Paper>
-
             </Grid>
-
           ))}
-
         </Grid>
-
       </Container>
     </Box>
   );
