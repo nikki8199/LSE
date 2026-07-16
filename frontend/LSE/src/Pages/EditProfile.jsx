@@ -14,14 +14,17 @@ import {
   Select,
   Stack,
   Alert,
+  Avatar,
+  IconButton,
 } from "@mui/material";
 import SaveIcon from "@mui/icons-material/Save";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import PhotoCameraIcon from "@mui/icons-material/PhotoCamera";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { updateProfile } from "../Services/userService";
+import { updateProfile, uploadProfileImage } from "../Services/userService";
 import DashboardNavbar from "../Components/DashboardNavbar/DashboardNavbar";
-import Sidebar from "../Components/SideBar/SideBar";
+import Sidebar from "../Components/Sidebar/SideBar";
 
 function EditProfile() {
   const navigate = useNavigate();
@@ -91,6 +94,37 @@ function EditProfile() {
 
   const handleDeleteNeeded = (skill) => {
     setSkillsNeeded(skillsNeeded.filter((s) => s !== skill));
+  };
+
+  const handlePhotoUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    if (file.size > 5 * 1024 * 1024) {
+      setStatus({ type: "error", message: "Image file size should be less than 5MB." });
+      return;
+    }
+
+    try {
+      setLoading(true);
+      setStatus({ type: "", message: "" });
+      
+      const uploadData = new FormData();
+      uploadData.append("profileImage", file);
+
+      const res = await uploadProfileImage(uploadData);
+      
+      // Update auth context
+      login(token, res.user);
+      setStatus({ type: "success", message: "Profile picture uploaded successfully!" });
+    } catch (err) {
+      setStatus({
+        type: "error",
+        message: err.response?.data?.message || "Failed to upload profile picture.",
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -165,6 +199,50 @@ function EditProfile() {
             )}
 
             <form onSubmit={handleSubmit}>
+              <Box display="flex" flexDirection="column" alignItems="center" mb={4}>
+                <Box position="relative">
+                  <Avatar
+                    src={user?.profileImage}
+                    sx={{
+                      width: 100,
+                      height: 100,
+                      border: "2px solid rgba(255, 255, 255, 0.2)",
+                      boxShadow: 3,
+                    }}
+                  >
+                    {user?.name?.charAt(0)}
+                  </Avatar>
+                  <input
+                    accept="image/*"
+                    style={{ display: "none" }}
+                    id="profile-upload-button"
+                    type="file"
+                    onChange={handlePhotoUpload}
+                  />
+                  <label htmlFor="profile-upload-button">
+                    <IconButton
+                      color="primary"
+                      aria-label="upload picture"
+                      component="span"
+                      disabled={loading}
+                      sx={{
+                        position: "absolute",
+                        bottom: -5,
+                        right: -5,
+                        bgcolor: "background.paper",
+                        boxShadow: 2,
+                        "&:hover": { bgcolor: "primary.light", color: "white" },
+                      }}
+                    >
+                      <PhotoCameraIcon />
+                    </IconButton>
+                  </label>
+                </Box>
+                <Typography variant="caption" sx={{ mt: 1.5, color: "text.secondary" }}>
+                  Allowed formats: JPG, PNG. Max size: 5MB
+                </Typography>
+              </Box>
+
               <Grid container spacing={3}>
                 <Grid item xs={12}>
                   <TextField

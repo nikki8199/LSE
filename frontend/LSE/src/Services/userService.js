@@ -62,3 +62,15 @@ export const getMyStats = async (id) => {
   const response = await API.get(`/profile/${id}/stats`);
   return response.data;
 };
+
+// ===============================
+// Upload Profile Image
+// ===============================
+export const uploadProfileImage = async (formData) => {
+  const response = await API.patch("/upload-profile", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+  return response.data;
+};

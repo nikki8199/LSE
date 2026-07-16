@@ -270,7 +270,7 @@ async function uploadProfileImage(req, res) {
       });
     }
 
-    const imagePath = "/uploads/" + req.file.filename;
+    const imagePath = "http://localhost:5000/Uploads/" + req.file.filename;
 
     const user = await User.findByIdAndUpdate(
       req.userId,
