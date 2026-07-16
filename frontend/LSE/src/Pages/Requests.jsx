@@ -59,11 +59,15 @@ function Requests() {
     setTabValue(newValue);
   };
 
-  const handleAccept = async (id) => {
+  const handleAccept = async (id, senderId) => {
     try {
       await acceptExchangeRequest(id);
       alert("Request accepted successfully!");
-      fetchRequests();
+      if (senderId) {
+        navigate(`/profile/${senderId}`);
+      } else {
+        fetchRequests();
+      }
     } catch (err) {
       alert(err.response?.data?.message || "Failed to accept request");
     }
@@ -195,7 +199,7 @@ function Requests() {
                 variant="contained"
                 color="success"
                 startIcon={<CheckIcon />}
-                onClick={() => handleAccept(req._id)}
+                onClick={() => handleAccept(req._id, req.sender?._id)}
                 sx={{ borderRadius: 2 }}
               >
                 Accept
