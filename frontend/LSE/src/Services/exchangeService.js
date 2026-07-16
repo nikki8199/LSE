@@ -38,3 +38,8 @@ export async function rejectExchangeRequest(id) {
   const response = await API.patch(`/reject/${id}`);
   return response.data;
 }
+
+export async function completeExchangeRequest(id) {
+  const response = await API.patch(`/complete/${id}`);
+  return response.data;
+}

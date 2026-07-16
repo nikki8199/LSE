@@ -28,7 +28,8 @@ function RecommendedSkills() {
   async function loadUsers() {
     try {
       const data = await exploreUsers();
-      setUsers(data.users);
+      const nonAdmins = (data.users || []).filter((u) => u.role !== "admin");
+      setUsers(nonAdmins);
     } catch (err) {
       console.log(err);
     } finally {
@@ -89,10 +90,14 @@ function RecommendedSkills() {
               sx={{
                 borderRadius: 4,
                 height: "100%",
-                transition: ".3s",
+                bgcolor: "rgba(10, 15, 30, 0.45)",
+                border: "1px solid rgba(6, 182, 212, 0.15)",
+                backdropFilter: "blur(20px)",
+                transition: "all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1)",
                 "&:hover": {
                   transform: "translateY(-6px)",
-                  boxShadow: 8,
+                  borderColor: "rgba(6, 182, 212, 0.45)",
+                  boxShadow: "0 0 15px rgba(6, 182, 212, 0.2)",
                 },
               }}
             >
@@ -108,6 +113,7 @@ function RecommendedSkills() {
                       width: 60,
                       height: 60,
                       bgcolor: "primary.main",
+                      border: "1px solid rgba(6, 182, 212, 0.3)",
                     }}
                   >
                     {user.name?.charAt(0)}
@@ -196,7 +202,7 @@ function RecommendedSkills() {
                   )}
                 </Box>
 
-                <Stack direction="row" spacing={1.5} mt={3}>
+                <Stack direction="row" mt={3}>
                   <Button
                     fullWidth
                     variant="contained"
@@ -206,17 +212,6 @@ function RecommendedSkills() {
                     }}
                   >
                     Profile
-                  </Button>
-                  <Button
-                    fullWidth
-                    variant="outlined"
-                    startIcon={<ChatIcon />}
-                    onClick={() => navigate(`/messages?chat=${user._id}`)}
-                    sx={{
-                      borderRadius: 3,
-                    }}
-                  >
-                    Chat
                   </Button>
                 </Stack>
               </CardContent>

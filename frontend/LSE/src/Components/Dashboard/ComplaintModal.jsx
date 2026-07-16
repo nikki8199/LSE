@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Dialog,
   DialogTitle,
@@ -18,7 +18,7 @@ import {
 import ReportIcon from "@mui/icons-material/Report";
 import axios from "axios";
 
-function ComplaintModal({ open, onClose, onSubmitSuccess }) {
+function ComplaintModal({ open, onClose, onSubmitSuccess, initialTargetEmail }) {
   const [formData, setFormData] = useState({
     title: "",
     category: "Other",
@@ -27,6 +27,18 @@ function ComplaintModal({ open, onClose, onSubmitSuccess }) {
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (open) {
+      setFormData({
+        title: "",
+        category: initialTargetEmail ? "User Behavior" : "Other",
+        targetUserEmail: initialTargetEmail || "",
+        description: "",
+      });
+      setError("");
+    }
+  }, [open, initialTargetEmail]);
 
   const handleChange = (e) => {
     setFormData({
@@ -147,6 +159,7 @@ function ComplaintModal({ open, onClose, onSubmitSuccess }) {
               name="targetUserEmail"
               value={formData.targetUserEmail}
               onChange={handleChange}
+              disabled={Boolean(initialTargetEmail)}
               placeholder="e.g. user@example.com"
               helperText="Only fill if reporting behavior of another specific member"
             />

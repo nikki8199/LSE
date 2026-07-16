@@ -20,14 +20,18 @@ import CloseIcon from "@mui/icons-material/Close";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import VideoCameraBackIcon from "@mui/icons-material/VideoCameraBack";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import ChatIcon from "@mui/icons-material/Chat";
 import { useNavigate } from "react-router-dom";
 import DashboardNavbar from "../Components/DashboardNavbar/DashboardNavbar";
 import Sidebar from "../Components/SideBar/SideBar";
+import ReviewDialog from "../Components/Profile/ReviewDialog";
+import ComplaintModal from "../Components/Dashboard/ComplaintModal";
 import {
   getReceivedRequests,
   getSentRequests,
   acceptExchangeRequest,
   rejectExchangeRequest,
+  completeExchangeRequest,
 } from "../Services/exchangeService";
 
 function Requests() {
@@ -36,6 +40,13 @@ function Requests() {
   const [received, setReceived] = useState([]);
   const [sent, setSent] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  // Dialog & Modal states for review and report
+  const [selectedExchangeId, setSelectedExchangeId] = useState("");
+  const [selectedPartnerName, setSelectedPartnerName] = useState("");
+  const [selectedPartnerEmail, setSelectedPartnerEmail] = useState("");
+  const [reviewOpen, setReviewOpen] = useState(false);
+  const [reportOpen, setReportOpen] = useState(false);
 
   useEffect(() => {
     fetchRequests();
@@ -80,6 +91,16 @@ function Requests() {
       fetchRequests();
     } catch (err) {
       alert(err.response?.data?.message || "Failed to reject request");
+    }
+  };
+
+  const handleComplete = async (id) => {
+    try {
+      await completeExchangeRequest(id);
+      alert("Exchange marked as completed! You can now leave a review for your partner.");
+      fetchRequests();
+    } catch (err) {
+      alert(err.response?.data?.message || "Failed to complete exchange");
     }
   };
 
@@ -215,6 +236,58 @@ function Requests() {
               </Button>
             </Stack>
           )}
+
+          {/* Action Buttons for Accepted requests */}
+          {req.status === "Accepted" && (
+            <Stack direction="row" spacing={2} mt={3}>
+              <Button
+                variant="contained"
+                color="primary"
+                startIcon={<ChatIcon />}
+                onClick={() => navigate(`/messages?chat=${partner?._id}`)}
+                sx={{ borderRadius: 2 }}
+              >
+                Chat
+              </Button>
+              <Button
+                variant="contained"
+                color="success"
+                onClick={() => handleComplete(req._id)}
+                sx={{ borderRadius: 2 }}
+              >
+                Complete
+              </Button>
+            </Stack>
+          )}
+
+          {/* Action Buttons for Completed requests */}
+          {req.status === "Completed" && (
+            <Stack direction="row" spacing={2} mt={3}>
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={() => {
+                  setSelectedExchangeId(req._id);
+                  setSelectedPartnerName(partner?.name);
+                  setReviewOpen(true);
+                }}
+                sx={{ borderRadius: 2 }}
+              >
+                Give Review
+              </Button>
+              <Button
+                variant="outlined"
+                color="error"
+                onClick={() => {
+                  setSelectedPartnerEmail(partner?.email);
+                  setReportOpen(true);
+                }}
+                sx={{ borderRadius: 2 }}
+              >
+                Report User
+              </Button>
+            </Stack>
+          )}
         </CardContent>
       </Card>
     );
@@ -265,6 +338,23 @@ function Requests() {
           </Paper>
         </Container>
       </Box>
+
+      {/* Peer Review Dialog */}
+      <ReviewDialog
+        open={reviewOpen}
+        onClose={() => setReviewOpen(false)}
+        exchangeId={selectedExchangeId}
+        partnerName={selectedPartnerName}
+        onSubmitSuccess={fetchRequests}
+      />
+
+      {/* Partner Report Complaint Modal */}
+      <ComplaintModal
+        open={reportOpen}
+        onClose={() => setReportOpen(false)}
+        initialTargetEmail={selectedPartnerEmail}
+        onSubmitSuccess={fetchRequests}
+      />
     </>
   );
 }

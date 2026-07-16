@@ -27,11 +27,16 @@ function UserCard({ user }) {
         height: "100%",
         display: "flex",
         flexDirection: "column",
-        transition: ".3s",
+        bgcolor: "rgba(10, 15, 30, 0.5)",
+        backdropFilter: "blur(20px)",
+        border: "1px solid rgba(6, 182, 212, 0.15)",
+        boxShadow: "0 8px 32px 0 rgba(0, 0, 0, 0.3)",
+        transition: "all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1)",
 
         "&:hover": {
           transform: "translateY(-8px)",
-          boxShadow: 10,
+          borderColor: "rgba(6, 182, 212, 0.5)",
+          boxShadow: "0 0 18px rgba(6, 182, 212, 0.35), 0 8px 32px 0 rgba(0, 0, 0, 0.4)",
         },
       }}
     >
@@ -53,6 +58,8 @@ function UserCard({ user }) {
               height: 80,
               bgcolor: "primary.main",
               fontSize: 30,
+              border: "2px solid rgba(6, 182, 212, 0.4)",
+              boxShadow: "0 0 12px rgba(6, 182, 212, 0.25)",
             }}
           >
             {user.name?.charAt(0)}
@@ -170,19 +177,21 @@ function UserCard({ user }) {
           >
             Profile
           </Button>
-          <Button
-            fullWidth
-            variant="outlined"
-            startIcon={<ChatIcon />}
-            onClick={() =>
-              navigate(`/messages?chat=${user._id}`)
-            }
-            sx={{
-              borderRadius: 3,
-            }}
-          >
-            Chat
-          </Button>
+          {user.role !== "admin" && (
+            <Button
+              fullWidth
+              variant="outlined"
+              startIcon={<ChatIcon />}
+              onClick={() =>
+                navigate(`/messages?chat=${user._id}`)
+              }
+              sx={{
+                borderRadius: 3,
+              }}
+            >
+              Chat
+            </Button>
+          )}
         </Stack>
       </CardContent>
     </Card>

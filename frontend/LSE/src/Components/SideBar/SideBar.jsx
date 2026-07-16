@@ -13,12 +13,17 @@ import VideoLibraryIcon from "@mui/icons-material/VideoLibrary";
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 import LogoutIcon from "@mui/icons-material/Logout";
 import ReportIcon from "@mui/icons-material/Report";
-import { useNavigate } from "react-router-dom";
+import BarChartIcon from "@mui/icons-material/BarChart";
+import SupervisedUserCircleIcon from "@mui/icons-material/SupervisedUserCircle";
+import StarRateIcon from "@mui/icons-material/StarRate";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import ComplaintModal from "../Dashboard/ComplaintModal";
 
 function Sidebar() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const activeTab = searchParams.get("tab") || "analytics";
   const { user, sidebarOpen, logout } = useAuth();
   const [complaintOpen, setComplaintOpen] = useState(false);
 
@@ -34,12 +39,12 @@ function Sidebar() {
         height: "calc(100vh - 80px)",
         position: "sticky",
         top: "80px",
-        bgcolor: "rgba(17, 24, 39, 0.6)",
-        backdropFilter: "blur(14px)",
-        borderRight: "1px solid rgba(255, 255, 255, 0.08)",
+        bgcolor: "rgba(8, 12, 24, 0.75)",
+        backdropFilter: "blur(20px)",
+        borderRight: "1px solid rgba(6, 182, 212, 0.25)",
         borderRadius: 0,
         p: 3,
-        boxShadow: 2,
+        boxShadow: "0 0 20px rgba(0, 0, 0, 0.4)",
         overflowY: "auto",
         boxSizing: "border-box",
       }}
@@ -56,6 +61,8 @@ function Sidebar() {
             margin: "auto",
             fontSize: 40,
             bgcolor: "primary.main",
+            border: "2px solid rgba(6, 182, 212, 0.4)",
+            boxShadow: "0 0 15px rgba(6, 182, 212, 0.3)",
           }}
         >
           {user?.name?.charAt(0)}
@@ -87,16 +94,60 @@ function Sidebar() {
       </Box>
 
       {user?.role === "admin" ? (
-        <Stack spacing={2} mt={4}>
+        <Stack spacing={1.5} mt={4}>
           <Button
             fullWidth
-            variant="contained"
-            color="warning"
-            startIcon={<AdminPanelSettingsIcon />}
-            onClick={() => navigate("/admin")}
-            sx={{ borderRadius: 2, fontWeight: "bold" }}
+            variant={activeTab === "analytics" ? "contained" : "outlined"}
+            color="primary"
+            startIcon={<BarChartIcon />}
+            onClick={() => navigate("/admin?tab=analytics")}
+            sx={{ borderRadius: 2, justifyContent: "flex-start", px: 3, fontWeight: "bold" }}
           >
-            System Monitor
+            Analytics
+          </Button>
+
+          <Button
+            fullWidth
+            variant={activeTab === "users" ? "contained" : "outlined"}
+            color="primary"
+            startIcon={<SupervisedUserCircleIcon />}
+            onClick={() => navigate("/admin?tab=users")}
+            sx={{ borderRadius: 2, justifyContent: "flex-start", px: 3, fontWeight: "bold" }}
+          >
+            Users Directory
+          </Button>
+
+          <Button
+            fullWidth
+            variant={activeTab === "reviews" ? "contained" : "outlined"}
+            color="primary"
+            startIcon={<StarRateIcon />}
+            onClick={() => navigate("/admin?tab=reviews")}
+            sx={{ borderRadius: 2, justifyContent: "flex-start", px: 3, fontWeight: "bold" }}
+          >
+            User Reviews
+          </Button>
+
+          <Button
+            fullWidth
+            variant={activeTab === "complaints" ? "contained" : "outlined"}
+            color="primary"
+            startIcon={<ReportIcon />}
+            onClick={() => navigate("/admin?tab=complaints")}
+            sx={{ borderRadius: 2, justifyContent: "flex-start", px: 3, fontWeight: "bold" }}
+          >
+            Complaints Desk
+          </Button>
+
+          <Button
+            fullWidth
+            variant={activeTab === "videos" ? "contained" : "outlined"}
+            color="primary"
+            startIcon={<VideoLibraryIcon />}
+            onClick={() => navigate("/admin?tab=videos")}
+            sx={{ borderRadius: 2, justifyContent: "flex-start", px: 3, fontWeight: "bold" }}
+          >
+            Shared Videos
           </Button>
 
           <Button
@@ -108,7 +159,7 @@ function Sidebar() {
               logout();
               navigate("/login");
             }}
-            sx={{ borderRadius: 2 }}
+            sx={{ borderRadius: 2, mt: 3 }}
           >
             Logout
           </Button>

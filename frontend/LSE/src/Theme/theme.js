@@ -4,26 +4,32 @@ const theme = createTheme({
   palette: {
     mode: "dark",
     primary: {
-      main: "#6366F1", // Indigo
-      light: "#818CF8",
-      dark: "#4F46E5",
+      main: "#06B6D4", // Neon Cyan
+      light: "#67e8f9",
+      dark: "#0891b2",
     },
     secondary: {
-      main: "#10B981", // Emerald
-      light: "#34D399",
-      dark: "#059669",
+      main: "#D946EF", // Neon Pink/Magenta
+      light: "#f0abfc",
+      dark: "#c084fc",
     },
     background: {
-      default: "#0B0F19", // Space Slate
-      paper: "#111827", // Charcoal Slate
+      default: "#050811", // Deep Space Blue-Black
+      paper: "rgba(10, 15, 30, 0.65)", // Translucent Dark Indigo
     },
     text: {
       primary: "#F8FAFC",
       secondary: "#94A3B8",
     },
     action: {
-      selected: "rgba(99, 102, 241, 0.16)",
+      selected: "rgba(6, 182, 212, 0.16)",
       hover: "rgba(255, 255, 255, 0.04)",
+    },
+    warning: {
+      main: "#F59E0B",
+    },
+    error: {
+      main: "#F43F5E",
     },
   },
 
@@ -51,32 +57,40 @@ const theme = createTheme({
         root: {
           borderRadius: 12,
           padding: "10px 22px",
-          transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+          transition: "all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1)",
           "&:hover": {
             transform: "translateY(-1.5px)",
-            boxShadow: "0 8px 20px rgba(99, 102, 241, 0.35)",
+            boxShadow: "0 8px 20px rgba(6, 182, 212, 0.25)",
           },
         },
         containedPrimary: {
-          background: "linear-gradient(135deg, #6366F1 0%, #4F46E5 100%)",
+          background: "linear-gradient(135deg, #06B6D4 0%, #3B82F6 100%)",
+          "&:hover": {
+            background: "linear-gradient(135deg, #22d3ee 0%, #2563eb 100%)",
+            boxShadow: "0 0 15px rgba(6, 182, 212, 0.5)",
+          },
         },
         containedSecondary: {
-          background: "linear-gradient(135deg, #10B981 0%, #059669 100%)",
+          background: "linear-gradient(135deg, #D946EF 0%, #8B5CF6 100%)",
+          "&:hover": {
+            background: "linear-gradient(135deg, #f472b6 0%, #7c3aed 100%)",
+            boxShadow: "0 0 15px rgba(217, 70, 239, 0.5)",
+          },
         },
       },
     },
     MuiCard: {
       styleOverrides: {
         root: {
-          background: "rgba(17, 24, 39, 0.6)",
-          backdropFilter: "blur(14px)",
-          border: "1px solid rgba(255, 255, 255, 0.07)",
+          background: "rgba(10, 15, 30, 0.55)",
+          backdropFilter: "blur(20px)",
+          border: "1px solid rgba(6, 182, 212, 0.12)",
           boxShadow: "0 12px 36px rgba(0, 0, 0, 0.25)",
-          transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+          transition: "all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1)",
           "&:hover": {
             transform: "translateY(-4px)",
-            boxShadow: "0 24px 48px rgba(0, 0, 0, 0.35)",
-            borderColor: "rgba(99, 102, 241, 0.25)",
+            boxShadow: "0 0 20px rgba(6, 182, 212, 0.2)",
+            borderColor: "rgba(6, 182, 212, 0.45)",
           },
         },
       },
@@ -85,15 +99,18 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           backgroundImage: "none",
+          backgroundColor: "rgba(10, 15, 30, 0.65)",
+          backdropFilter: "blur(20px)",
+          border: "1px solid rgba(255, 255, 255, 0.05)",
         },
       },
     },
     MuiAppBar: {
       styleOverrides: {
         root: {
-          background: "rgba(11, 15, 25, 0.75) !important",
+          background: "rgba(5, 8, 17, 0.75) !important",
           backdropFilter: "blur(16px)",
-          borderBottom: "1px solid rgba(255, 255, 255, 0.08)",
+          borderBottom: "1px solid rgba(6, 182, 212, 0.25)",
           boxShadow: "none",
         },
       },
@@ -101,8 +118,9 @@ const theme = createTheme({
     MuiDialog: {
       styleOverrides: {
         paper: {
-          background: "#111827",
-          border: "1px solid rgba(255, 255, 255, 0.08)",
+          background: "rgba(8, 12, 24, 0.9)",
+          backdropFilter: "blur(20px)",
+          border: "1px solid rgba(6, 182, 212, 0.25)",
           boxShadow: "0 24px 48px rgba(0, 0, 0, 0.5)",
         },
       },

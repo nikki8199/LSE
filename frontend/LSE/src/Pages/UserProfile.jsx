@@ -81,7 +81,7 @@ function UserProfile() {
 
           <ReviewsSection userId={user?._id} />
 
-          <ExchangeButton user={user} />
+          {user?.role !== "admin" && <ExchangeButton user={user} />}
         </Container>
       </Box>
     </>

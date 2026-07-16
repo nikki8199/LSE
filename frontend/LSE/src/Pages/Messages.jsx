@@ -20,6 +20,7 @@ import {
 import SendIcon from "@mui/icons-material/Send";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ForumIcon from "@mui/icons-material/Forum";
+import VideoCameraBackIcon from "@mui/icons-material/VideoCameraBack";
 import DashboardNavbar from "../Components/DashboardNavbar/DashboardNavbar";
 import Sidebar from "../Components/SideBar/SideBar";
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -135,6 +136,18 @@ function Messages() {
     }
   };
 
+  useEffect(() => {
+    let interval;
+    if (activeConvId) {
+      interval = setInterval(() => {
+        fetchMessageThread(activeConvId, true);
+      }, 3000);
+    }
+    return () => {
+      if (interval) clearInterval(interval);
+    };
+  }, [activeConvId]);
+
   const handleSendMessage = async (e) => {
     e.preventDefault();
     if (!typedMessage.trim() || !activeConvId) return;
@@ -165,7 +178,7 @@ function Messages() {
       <Box sx={{ display: "flex", bgcolor: "transparent", minHeight: "100vh", pt: 10 }}>
         <Sidebar />
 
-        <Container maxWidth="xl" sx={{ py: 4 }}>
+        <Container maxWidth="xl" sx={{ py: 4, flex: 1, minWidth: 0 }}>
           <Button
             startIcon={<ArrowBackIcon />}
             onClick={() => navigate(-1)}
@@ -227,35 +240,31 @@ function Messages() {
                             }}
                           >
                             <ListItemAvatar>
-                              <Avatar src={conv.profileImage} sx={{ bgcolor: "primary.main" }}>
+                              <Avatar src={conv.profileImage} sx={{ bgcolor: "primary.main", border: "1px solid rgba(6, 182, 212, 0.3)" }}>
                                 {conv.name?.charAt(0)}
                               </Avatar>
                             </ListItemAvatar>
-                            <ListItemText
-                              primary={
-                                <Stack direction="row" justifyContent="space-between">
-                                  <Typography fontWeight={conv.unread ? "bold" : "normal"} noWrap maxWidth={150}>
-                                    {conv.name}
-                                  </Typography>
-                                  <Typography variant="caption" color="text.secondary">
-                                    {new Date(conv.time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                                  </Typography>
-                                </Stack>
-                              }
-                              secondary={
-                                <Typography
-                                  variant="body2"
-                                  color={conv.unread ? "text.primary" : "text.secondary"}
-                                  noWrap
-                                  fontWeight={conv.unread ? "bold" : "normal"}
-                                  maxWidth={200}
-                                >
-                                  {conv.lastMessage}
+                            <Box sx={{ flex: 1, minWidth: 0 }}>
+                              <Stack direction="row" justifyContent="space-between" alignItems="center">
+                                <Typography fontWeight={conv.unread ? "bold" : "600"} noWrap sx={{ color: "text.primary", fontSize: "0.95rem" }}>
+                                  {conv.name}
                                 </Typography>
-                              }
-                            />
+                                <Typography variant="caption" color="text.secondary" sx={{ ml: 1, flexShrink: 0 }}>
+                                  {new Date(conv.time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                </Typography>
+                              </Stack>
+                              <Typography
+                                variant="body2"
+                                color={conv.unread ? "text.primary" : "text.secondary"}
+                                noWrap
+                                fontWeight={conv.unread ? "bold" : "normal"}
+                                sx={{ mt: 0.5, fontSize: "0.85rem" }}
+                              >
+                                {conv.lastMessage}
+                              </Typography>
+                            </Box>
                           </ListItem>
-                          <Divider />
+                          <Divider sx={{ borderColor: "rgba(255, 255, 255, 0.06)" }} />
                         </React.Fragment>
                       ))
                     )}
@@ -278,17 +287,32 @@ function Messages() {
                 {activeConv ? (
                   <>
                     {/* Header */}
-                    <Box sx={{ p: 2.5, bgcolor: "background.paper", borderBottom: "1px solid rgba(255, 255, 255, 0.08)" }}>
-                      <Stack direction="row" spacing={2} alignItems="center">
-                        <Avatar src={activeConv.profileImage} sx={{ bgcolor: "primary.main" }}>
-                          {activeConv.name?.charAt(0)}
-                        </Avatar>
-                        <Box>
-                          <Typography fontWeight="bold">{activeConv.name}</Typography>
-                          <Typography variant="caption" color="text.secondary">
-                            {activeConv.email}
-                          </Typography>
-                        </Box>
+                    <Box sx={{ p: 2.5, bgcolor: "rgba(10, 15, 30, 0.45)", borderBottom: "1px solid rgba(6, 182, 212, 0.2)" }}>
+                      <Stack direction="row" justifyContent="space-between" alignItems="center">
+                        <Stack direction="row" spacing={2} alignItems="center">
+                          <Avatar src={activeConv.profileImage} sx={{ bgcolor: "primary.main", border: "1px solid rgba(6, 182, 212, 0.3)" }}>
+                            {activeConv.name?.charAt(0)}
+                          </Avatar>
+                          <Box>
+                            <Typography fontWeight="bold">{activeConv.name}</Typography>
+                            <Typography variant="caption" color="text.secondary">
+                              {activeConv.email}
+                            </Typography>
+                          </Box>
+                        </Stack>
+
+                        <Button
+                          variant="outlined"
+                          color="secondary"
+                          startIcon={<VideoCameraBackIcon />}
+                          onClick={() => {
+                            const roomIds = [activeConv.id, user?._id].sort().join("_");
+                            window.open(`https://meet.jit.si/SkillSwapExchange_${roomIds}`, "_blank");
+                          }}
+                          sx={{ borderRadius: 2 }}
+                        >
+                          Join Call
+                        </Button>
                       </Stack>
                     </Box>
 

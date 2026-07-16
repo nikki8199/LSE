@@ -107,7 +107,7 @@ function DashboardNavbar() {
       
       // Navigate to relevant section
       if (type === "Accepted" && senderId) {
-        navigate(`/profile/${senderId}`);
+        navigate(`/messages?chat=${senderId}`);
       } else if (["Request", "Rejected", "Cancelled"].includes(type)) {
         navigate("/requests");
       }
@@ -149,7 +149,7 @@ function DashboardNavbar() {
               color="primary"
               sx={{ display: { xs: "none", sm: "block" } }}
             >
-              SkillSwap Admin
+              {user?.role === "admin" ? "SkillSwap Admin" : "SkillSwap"}
             </Typography>
           </Box>
         </Box>
@@ -163,8 +163,15 @@ function DashboardNavbar() {
               alignItems: "center",
               px: 1.5,
               width: { xs: 180, sm: 300, md: 380 },
-              bgcolor: "rgba(255, 255, 255, 0.08)",
+              bgcolor: "rgba(10, 15, 30, 0.45)",
+              border: "1px solid rgba(6, 182, 212, 0.18)",
+              backdropFilter: "blur(10px)",
               borderRadius: 8,
+              boxShadow: "0 0 12px rgba(6, 182, 212, 0.1)",
+              transition: "border-color 0.3s ease",
+              "&:hover": {
+                borderColor: "rgba(6, 182, 212, 0.5)",
+              }
             }}
           >
             <IconButton onClick={handleSearchSubmit} size="small" sx={{ p: 0.5 }}>
