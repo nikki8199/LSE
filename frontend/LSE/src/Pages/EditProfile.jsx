@@ -200,7 +200,7 @@ function EditProfile() {
 
             <form onSubmit={handleSubmit}>
               <Box display="flex" flexDirection="column" alignItems="center" mb={4}>
-                <Box position="relative">
+                <Box sx={{ position: "relative", width: 100, height: 100 }}>
                   <Avatar
                     src={user?.profileImage}
                     sx={{
