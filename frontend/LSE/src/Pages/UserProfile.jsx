@@ -15,8 +15,8 @@ import { getUserProfile } from "../Services/userService";
 import ProfileHeader from "../Components/Profile/ProfileHeader";
 import AboutSection from "../Components/Profile/AboutSection";
 import SkillsSection from "../Components/Profile/SkillsSection";
+import ReviewsSection from "../Components/Profile/ReviewsSection";
 import ExchangeButton from "../Components/Profile/ExchangeButton";
-// import ExchangeButton from "../Components/Profile/ExchangeButton";
 
 function UserProfile() {
 
@@ -78,6 +78,8 @@ function UserProfile() {
           <AboutSection user={user} />
 
           <SkillsSection user={user} />
+
+          <ReviewsSection userId={user?._id} />
 
           <ExchangeButton user={user} />
         </Container>

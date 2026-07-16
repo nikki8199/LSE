@@ -97,7 +97,7 @@ function DashboardNavbar() {
     }
   };
 
-  const handleReadNotify = async (id, type) => {
+  const handleReadNotify = async (id, type, senderId) => {
     try {
       const token = localStorage.getItem("token");
       const config = { headers: { Authorization: `Bearer ${token}` } };
@@ -106,7 +106,9 @@ function DashboardNavbar() {
       fetchCounts();
       
       // Navigate to relevant section
-      if (["Request", "Accepted", "Rejected", "Cancelled"].includes(type)) {
+      if (type === "Accepted" && senderId) {
+        navigate(`/profile/${senderId}`);
+      } else if (["Request", "Rejected", "Cancelled"].includes(type)) {
         navigate("/requests");
       }
     } catch (err) {
@@ -226,7 +228,7 @@ function DashboardNavbar() {
                   notifications.map((notify) => (
                     <MenuItem
                       key={notify._id}
-                      onClick={() => handleReadNotify(notify._id, notify.type)}
+                      onClick={() => handleReadNotify(notify._id, notify.type, notify.sender?._id)}
                       sx={{
                         py: 1.5,
                         px: 2,

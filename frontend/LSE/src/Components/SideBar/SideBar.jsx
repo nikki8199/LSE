@@ -49,6 +49,7 @@ function Sidebar() {
       <Box textAlign="center">
 
         <Avatar
+          src={user?.profileImage}
           sx={{
             width: 100,
             height: 100,

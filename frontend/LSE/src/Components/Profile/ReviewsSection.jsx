@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Avatar,
   Box,
@@ -9,148 +9,151 @@ import {
   Stack,
   Typography,
   Divider,
-  Button,
+  CircularProgress,
 } from "@mui/material";
+import StarRateIcon from "@mui/icons-material/StarRate";
+import axios from "axios";
 
-const reviews = [
-  {
-    id: 1,
-    name: "John David",
-    rating: 5,
-    comment:
-      "Very patient teacher. Explained React concepts clearly and made learning enjoyable.",
-    date: "July 2026",
-  },
-  {
-    id: 2,
-    name: "Rahul Sharma",
-    rating: 5,
-    comment:
-      "Excellent mentor for Node.js. Every session was practical and easy to understand.",
-    date: "June 2026",
-  },
-  {
-    id: 3,
-    name: "Sophia Wilson",
-    rating: 4,
-    comment:
-      "Friendly and supportive throughout the exchange. Looking forward to another session.",
-    date: "June 2026",
-  },
-];
+function ReviewsSection({ userId }) {
+  const [reviews, setReviews] = useState([]);
+  const [averageRating, setAverageRating] = useState(0);
+  const [loading, setLoading] = useState(true);
 
-function ReviewsSection() {
+  useEffect(() => {
+    if (userId) {
+      fetchReviews();
+    }
+  }, [userId]);
+
+  const fetchReviews = async () => {
+    try {
+      setLoading(true);
+      const token = localStorage.getItem("token");
+      const config = { headers: { Authorization: `Bearer ${token}` } };
+      
+      const res = await axios.get(`http://localhost:5000/review/user/${userId}`, config);
+      setReviews(res.data.reviews || []);
+      setAverageRating(res.data.averageRating || 0);
+    } catch (err) {
+      console.error("Error fetching reviews:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <Box display="flex" justifyContent="center" py={4}>
+        <CircularProgress size={30} />
+      </Box>
+    );
+  }
+
   return (
     <Box sx={{ mt: 5 }}>
-      <Typography
-        variant="h5"
-        fontWeight={700}
-        sx={{ mb: 3 }}
-      >
-        Community Reviews
-      </Typography>
+      <Stack direction="row" spacing={2} alignItems="center" mb={3}>
+        <Typography variant="h5" fontWeight={700}>
+          Community Reviews
+        </Typography>
+        {reviews.length > 0 && (
+          <Box display="flex" alignItems="center" gap={0.5} sx={{ bgcolor: "rgba(255,255,255,0.06)", py: 0.5, px: 1.5, borderRadius: 3 }}>
+            <StarRateIcon color="warning" sx={{ fontSize: 18 }} />
+            <Typography variant="body2" fontWeight="bold">
+              {averageRating} ({reviews.length} {reviews.length === 1 ? "review" : "reviews"})
+            </Typography>
+          </Box>
+        )}
+      </Stack>
 
-      <Grid container spacing={3}>
-        {reviews.map((review) => (
-          <Grid
-            item
-            xs={12}
-            md={6}
-            lg={4}
-            key={review.id}
-          >
-            <Card
-              elevation={3}
-              sx={{
-                height: "100%",
-                borderRadius: 3,
-                transition: "all .3s ease",
-
-                "&:hover": {
-                  transform: "translateY(-6px)",
-                  boxShadow: 8,
-                },
-              }}
-            >
-              <CardContent>
-                <Stack
-                  direction="row"
-                  spacing={2}
-                  alignItems="center"
-                >
-                  <Avatar
-                    sx={{
-                      width: 55,
-                      height: 55,
-                      fontWeight: 700,
-                    }}
-                  >
-                    {review.name.charAt(0)}
-                  </Avatar>
-
-                  <Box>
-                    <Typography
-                      fontWeight={600}
-                      variant="subtitle1"
-                    >
-                      {review.name}
-                    </Typography>
-
-                    <Rating
-                      value={review.rating}
-                      precision={0.5}
-                      readOnly
-                      size="small"
-                    />
-
-                    <Typography
-                      variant="caption"
-                      color="text.secondary"
-                    >
-                      {review.date}
-                    </Typography>
-                  </Box>
-                </Stack>
-
-                <Divider sx={{ my: 2 }} />
-
-                <Typography
-                  variant="body2"
-                  color="text.secondary"
-                  sx={{
-                    lineHeight: 1.8,
-                  }}
-                >
-                  "{review.comment}"
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
-
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          mt: 4,
-        }}
-      >
-        <Button
-          variant="outlined"
+      {reviews.length === 0 ? (
+        <Paper
+          elevation={1}
           sx={{
-            px: 4,
-            py: 1,
-            borderRadius: "30px",
-            textTransform: "none",
-            fontWeight: 600,
+            p: 4,
+            textAlign: "center",
+            borderRadius: 3,
+            bgcolor: "rgba(255, 255, 255, 0.02)",
+            border: "1px dashed rgba(255, 255, 255, 0.08)",
           }}
         >
-          View All Reviews
-        </Button>
-      </Box>
+          <Typography color="text.secondary" variant="body2">
+            No reviews yet for this community member.
+          </Typography>
+        </Paper>
+      ) : (
+        <Grid container spacing={3}>
+          {reviews.map((review) => (
+            <Grid item xs={12} md={6} lg={4} key={review._id}>
+              <Card
+                elevation={3}
+                sx={{
+                  height: "100%",
+                  borderRadius: 3,
+                  bgcolor: "rgba(255, 255, 255, 0.03)",
+                  border: "1px solid rgba(255, 255, 255, 0.06)",
+                  transition: "all .3s ease",
+                  "&:hover": {
+                    transform: "translateY(-6px)",
+                    boxShadow: 8,
+                    borderColor: "primary.main",
+                  },
+                }}
+              >
+                <CardContent>
+                  <Stack direction="row" spacing={2} alignItems="center">
+                    <Avatar
+                      src={review.reviewer?.profileImage}
+                      sx={{
+                        width: 48,
+                        height: 48,
+                        fontWeight: 700,
+                        bgcolor: "primary.main",
+                      }}
+                    >
+                      {review.reviewer?.name?.charAt(0)}
+                    </Avatar>
+
+                    <Box>
+                      <Typography fontWeight={600} variant="subtitle2">
+                        {review.reviewer?.name || "Deleted User"}
+                      </Typography>
+
+                      <Rating
+                        value={review.rating}
+                        precision={0.5}
+                        readOnly
+                        size="small"
+                        sx={{ my: 0.5 }}
+                      />
+
+                      <Typography variant="caption" color="text.secondary" display="block">
+                        {new Date(review.createdAt).toLocaleDateString()}
+                      </Typography>
+                    </Box>
+                  </Stack>
+
+                  <Divider sx={{ my: 1.5, borderColor: "rgba(255,255,255,0.06)" }} />
+
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    sx={{
+                      lineHeight: 1.6,
+                      fontStyle: "italic",
+                    }}
+                  >
+                    "{review.review || "No comments written"}"
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+      )}
     </Box>
   );
 }
+
+import { Paper } from "@mui/material"; // Import Paper explicitly at the end or top
 
 export default ReviewsSection;
