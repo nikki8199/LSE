@@ -32,7 +32,7 @@ function Dashboard() {
                 sx={{
                     bgcolor: "transparent",
                     minHeight: "100vh",
-                    pt: "80px",
+                    pt: "64px",
                     display: "flex",
                 }}
             >

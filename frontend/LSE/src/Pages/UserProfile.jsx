@@ -62,7 +62,7 @@ function UserProfile() {
           display: "flex",
           bgcolor: "transparent",
           minHeight: "100vh",
-          pt: 10,
+          pt: 8,
         }}
       >
         <Sidebar />

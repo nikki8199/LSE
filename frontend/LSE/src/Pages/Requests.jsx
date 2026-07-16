@@ -296,7 +296,7 @@ function Requests() {
   return (
     <>
       <DashboardNavbar />
-      <Box sx={{ display: "flex", bgcolor: "transparent", minHeight: "100vh", pt: 10 }}>
+      <Box sx={{ display: "flex", bgcolor: "transparent", minHeight: "100vh", pt: 8 }}>
         <Sidebar />
 
         <Container maxWidth="lg" sx={{ py: 4 }}>

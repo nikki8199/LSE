@@ -124,7 +124,7 @@ function Videos() {
   return (
     <>
       <DashboardNavbar />
-      <Box sx={{ display: "flex", bgcolor: "transparent", minHeight: "100vh", pt: 10 }}>
+      <Box sx={{ display: "flex", bgcolor: "transparent", minHeight: "100vh", pt: 8 }}>
         <Sidebar />
 
         <Container maxWidth="xl" sx={{ py: 4 }}>

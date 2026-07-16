@@ -35,10 +35,10 @@ function Sidebar() {
 
       sx={{
         width: 300,
-        minHeight: "calc(100vh - 80px)",
-        height: "calc(100vh - 80px)",
+        minHeight: "calc(100vh - 64px)",
+        height: "calc(100vh - 64px)",
         position: "sticky",
-        top: "80px",
+        top: "64px",
         bgcolor: "rgba(8, 12, 24, 0.75)",
         backdropFilter: "blur(20px)",
         borderRight: "1px solid rgba(6, 182, 212, 0.25)",
