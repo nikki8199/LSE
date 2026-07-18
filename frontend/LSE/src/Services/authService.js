@@ -22,9 +22,10 @@
 // export default API;
 
 import axios from "axios";
+import API_BASE_URL from "../config";
 
 const API = axios.create({
-    baseURL: "http://localhost:5000/Authentication"
+    baseURL: `${API_BASE_URL}/Authentication`
 });
 
 export const sendOTP = async (data) => {

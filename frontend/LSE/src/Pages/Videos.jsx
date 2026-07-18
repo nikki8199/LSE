@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import API_BASE_URL from "../config";
 import {
   Box,
   Container,
@@ -182,7 +183,7 @@ function Videos() {
                       {/* Video Player */}
                       <Box sx={{ position: "relative", pt: "56.25%", bgcolor: "black", borderTopLeftRadius: 16, borderTopRightRadius: 16 }}>
                         <video
-                          src={`http://localhost:5000${vid.videoUrl}`}
+                          src={`${API_BASE_URL}${vid.videoUrl}`}
                           controls
                           style={{
                             position: "absolute",
