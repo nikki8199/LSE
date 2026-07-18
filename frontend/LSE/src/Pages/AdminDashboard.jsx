@@ -36,7 +36,7 @@ import RotateLeftIcon from "@mui/icons-material/RotateLeft";
 import StarRateIcon from "@mui/icons-material/StarRate";
 import axios from "axios";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../Context/AuthContext";
 import DashboardNavbar from "../Components/DashboardNavbar/DashboardNavbar";
 import Sidebar from "../Components/SideBar/SideBar";
 

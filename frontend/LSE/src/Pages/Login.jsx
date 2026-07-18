@@ -12,7 +12,7 @@ import {
 
 import LoginIcon from "@mui/icons-material/Login";
 import {login as loginUser} from "../Services/authService";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../Context/AuthContext";
 import { useNavigate, Link as RouterLink } from "react-router-dom";
 
 function Login() {

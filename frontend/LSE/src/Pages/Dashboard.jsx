@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../Context/AuthContext";
 import { Box } from "@mui/material";
 import RecommendedSkills from "../Components/Dashboard/RecomendedSkills";
 import WelcomeCard from "../Components/Dashboard/Welcome";

@@ -8,7 +8,7 @@ import {
 import WavingHandIcon from "@mui/icons-material/WavingHand";
 import ExploreIcon from "@mui/icons-material/Explore";
 
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "../../Context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
 function WelcomeCard() {

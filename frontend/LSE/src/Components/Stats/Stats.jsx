@@ -15,7 +15,7 @@ import {
     CalendarMonth
 } from "@mui/icons-material";
 
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "../../Context/AuthContext";
 import { getUserStats } from "../../Services/userService";
 
 function StatsSection() {

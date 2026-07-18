@@ -24,7 +24,7 @@ import VideoCameraBackIcon from "@mui/icons-material/VideoCameraBack";
 import DashboardNavbar from "../Components/DashboardNavbar/DashboardNavbar";
 import Sidebar from "../Components/SideBar/SideBar";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../Context/AuthContext";
 import { getConversations, getMessageThread, sendMessage } from "../Services/messageService";
 import { getUserProfile } from "../Services/userService";
 

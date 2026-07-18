@@ -3,7 +3,7 @@ import { Paper, Button, Box } from "@mui/material";
 import HandshakeIcon from "@mui/icons-material/Handshake";
 
 import ExchangeDialog from "../Exchange/ExchangeDialog";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "../../Context/AuthContext";
 
 function ExchangeButton({ user }) {
   const [open, setOpen] = useState(false);

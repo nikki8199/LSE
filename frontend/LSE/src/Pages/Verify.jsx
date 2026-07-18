@@ -12,7 +12,7 @@ import {
 import VerifiedUserIcon from "@mui/icons-material/VerifiedUser";
 import { useLocation, useNavigate } from "react-router-dom";
 import { verifyOTP } from "../Services/authService";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../Context/AuthContext";
 
 function VerifyOTP() {
   const navigate = useNavigate();

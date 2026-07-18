@@ -21,10 +21,10 @@ import SaveIcon from "@mui/icons-material/Save";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import PhotoCameraIcon from "@mui/icons-material/PhotoCamera";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../Context/AuthContext";
 import { updateProfile, uploadProfileImage } from "../Services/userService";
 import DashboardNavbar from "../Components/DashboardNavbar/DashboardNavbar";
-import Sidebar from "../Components/Sidebar/SideBar";
+import Sidebar from "../Components/SideBar/SideBar";
 
 function EditProfile() {
   const navigate = useNavigate();

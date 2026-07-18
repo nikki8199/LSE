@@ -9,7 +9,7 @@ import API_BASE_URL from "./config";
 import App from "./App";
 import "./index.css";
 
-import { AuthProvider } from "./context/AuthContext";
+import { AuthProvider } from "./Context/AuthContext";
 
 // Global axios interceptor to redirect local backend calls to configured API URL
 axios.interceptors.request.use(

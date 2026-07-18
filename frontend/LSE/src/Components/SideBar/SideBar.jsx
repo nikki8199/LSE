@@ -17,7 +17,7 @@ import BarChartIcon from "@mui/icons-material/BarChart";
 import SupervisedUserCircleIcon from "@mui/icons-material/SupervisedUserCircle";
 import StarRateIcon from "@mui/icons-material/StarRate";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "../../Context/AuthContext";
 import ComplaintModal from "../Dashboard/ComplaintModal";
 
 function Sidebar() {

@@ -27,7 +27,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import PlayCircleOutlinedIcon from "@mui/icons-material/PlayCircleOutlined";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../Context/AuthContext";
 import DashboardNavbar from "../Components/DashboardNavbar/DashboardNavbar";
 import Sidebar from "../Components/SideBar/SideBar";
 import { getVideos, uploadVideo, toggleLikeVideo, deleteVideo } from "../Services/videoService";
