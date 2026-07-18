@@ -6,7 +6,7 @@ const router = express.Router();
 
 
 
-const isUser = require("../Middleware/isUser");
+const isUser = require("../MiddleWare/isUser");
 const {
   exploreUsers,
   searchUsers,

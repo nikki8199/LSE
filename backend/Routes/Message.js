@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-const isUser = require("../Middleware/isUser");
+const isUser = require("../MiddleWare/isUser");
 const {
   sendMessage,
   getConversations,

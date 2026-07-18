@@ -2,7 +2,7 @@ const express = require("express");
 
 const router = express.Router();
 
-const isUser = require("../Middleware/isUser");
+const isUser = require("../MiddleWare/isUser");
 const { deleteNotification, markAllRead, markAsRead, getNotifications } = require("../Controller/NotificationContoller");
 
 
